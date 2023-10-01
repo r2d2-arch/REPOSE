@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPOSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0e0b1b;
+            margin: 0;
+            padding: 0;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 50px;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 3px;
+            font-family: 'Audiowide', sans-serif;
+        }
+
+        h3 {
+            color: #f4f4f4;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 10px;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 3px;
+            font-family: 'Audiowide', sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #3b3b3b, #1c1c1c);
+            background-image: 
+                linear-gradient(0deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: 4px solid #f0f0f0;
+        }
+
+        .filters {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            width: 60%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #fff;
+            border-radius: 25px;
+            background-color: #1e0b26;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            background-color: #1e0b26;
+            transform: scale(1.05);
+        }
+
+        .checkbox-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 60%;
+        }
+
+        .social-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .social-icons a {
+            color: #f0f0f0;
+            margin-right: 15px;
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #dcdcdc;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: #e0e0e0;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"] + .checkbox-label {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        input[type="checkbox"] + .checkbox-label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: #ffffff;
+            border: 2px solid #1e0b26;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked + .checkbox-label::before {
+            background-color: #1e0b26;
+            border-color: #ffffff;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #dcdcdc;
+            transform: translateY(-2px);
+        }
+
+        .repo-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .repo-item {
+            padding: 16px;
+            margin: 10px 0;
+            background-color: #1e0b26;
+            border-left: 5px solid #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .repo-item:hover {
+            transform: translateX(10px);
+            background-color: #2c1336;
+        }
+
+        .repo-item a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .repo-item a:hover {
+            color: #dcdcdc;
+            text-decoration: underline;
+        }
+
+        .loader {
+            display: none;
+            margin: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
+            overflow: auto;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .modal-content {
+            background-color: #1e0b26;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: #f4f7fc;
+            border: 4px solid #ffffff;
+            position: relative;
+        }
+
+        .close {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #dcdcdc;
+            text-decoration: none;
+        }
+
+        .modal h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .modal p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .modal a {
+            color: #ffffff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modal a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .filters button {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .copy-uuid {
+            display: inline-block;
+            background-color: #ffffff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: 'Exo 2', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-uuid:hover {
+            background-color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="social-icons">
+        <a href="https://twitter.com" target="_blank" class="fab fa-twitter"></a>
+        <a href="https://github.com" target="_blank" class="fab fa-github"></a>
+    </div>
+
+    <h3>78WL54RC677N7orjaYYyztgsLJc3Cz6gv8BBvZZMpump</h3> 
+    <div class="container">
+        <h1>REPOSE</h1>      
+        <div class="filters">
+            <input type="text" id="search-input" style="font-family: 'Exo 2', sans-serif;" placeholder="Enter a keyword to search repositories (e.g., AI):">
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="has-website">
+                    <span class="checkbox-label">Has website</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="committed-this-year">
+                    <span class="checkbox-label">Last commit this year</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="has-license">
+                    <span class="checkbox-label">Has license</span>
+                </label>
+            </div>
+            <button style="width: 90px; font-family: 'Exo 2', sans-serif; color: #0e0b1b" onclick="searchRepositories()">Search</button>
+        </div>
+
+        <div id="loader" class="loader">Loading...</div>
+
+        <ul id="repo-list" class="repo-list"></ul>
+    </div>
+
+    <div id="repo-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="repo-name"></h2>
+            <div class="repo-details">
+                <p><strong>Description:</strong> <span id="repo-description"></span></p>
+                <p><strong>Stars:</strong> <span id="repo-stars"></span></p>
+                <p><strong>Forks:</strong> <span id="repo-forks"></span></p>
+                <p><strong>Issues (open):</strong> <span id="repo-issues"></span></p>
+                <p><strong>Languages:</strong> <span id="repo-languages"></span></p>
+                <p><strong>Last commit date:</strong> <span id="repo-last-commit"></span></p>
+                <p><strong>Creation date:</strong> <span id="repo-created-at"></span></p>
+                <p><strong>Website:</strong> <span id="repo-website">None</span></p>
+                <p><strong>License:</strong> <span id="repo-license"></span></p>
+                <p><strong>Link:</strong> <a id="repo-link" href="#" target="_blank">Go to GitHub</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchRepositories() {
+            const searchInput = document.getElementById("search-input");
+            const query = searchInput.value.trim();
+            const hasWebsite = document.getElementById("has-website").checked;
+            const committedThisYear = document.getElementById("committed-this-year").checked;
+            const hasLicense = document.getElementById("has-license").checked;
+
+            if (!query) {
+                alert("Please enter a keyword.");
+                return;
+            }
+
+            document.getElementById("loader").style.display = "inline-block";
+            document.getElementById("repo-list").innerHTML = '';
+
+            const apiUrl = `https://api.repose.com/search/repositories?q=${query}&per_page=30`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loader").style.display = "none";
+
+                    if (data.items && data.items.length > 0) {
+                        const repoList = document.getElementById("repo-list");
+                        data.items.forEach(item => {
+                            const lastCommitDate = new Date(item.pushed_at);
+                            const currentYear = new Date().getFullYear();
+                            const lastCommitThisYear = committedThisYear ? lastCommitDate.getFullYear() === currentYear : true;
+
+                            if (
+                                (!hasWebsite || item.homepage) &&
+                                lastCommitThisYear &&
+                                (!hasLicense || item.license)
+                            ) {
+                                const li = document.createElement("li");
+                                li.className = "repo-item";
+                                li.onclick = () => showRepoDetails(item);
+
+                                const repoLink = document.createElement("a");
+                                repoLink.href = item.html_url;
+                                repoLink.target = "_blank";
+                                repoLink.textContent = item.full_name;
+
+                                li.appendChild(repoLink);
+                                repoList.appendChild(li);
+                            }
+                        });
+                    } else {
+                        alert("Not found");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loader").style.display = "none";
+                    alert("Error loading data from GitHub.");
+                    console.error(error);
+                });
+        }
+
+        function showRepoDetails(repo) {
+            document.getElementById("repo-name").textContent = repo.full_name;
+            document.getElementById("repo-description").textContent = repo.description || "No description";
+            document.getElementById("repo-stars").textContent = repo.stargazers_count;
+            document.getElementById("repo-forks").textContent = repo.forks_count;
+            document.getElementById("repo-issues").textContent = repo.open_issues_count;
+
+            fetch(repo.languages_url)
+                .then(response => response.json())
+                .then(languages => {
+                    const languageList = Object.keys(languages).join(", ");
+                    document.getElementById("repo-languages").textContent = languageList || "Not specified";
+                })
+                .catch(error => {
+                    document.getElementById("repo-languages").textContent = "Error loading languages";
+                    console.error(error);
+                });
+
+            fetch(repo.commits_url.replace("{/sha}", ""))
+                .then(response => response.json())
+                .then(commits => {
+                    const lastCommit = commits[0] ? commits[0].commit.committer.date : "Not found";
+                    document.getElementById("repo-last-commit").textContent = lastCommit;
+                })
+                .catch(error => {
+                    document.getElementById("repo-last-commit").textContent = "Error loading commits";
+                    console.error(error);
+                });
+
+            if (repo.license) {
+                document.getElementById("repo-license").textContent = repo.license.name;
+            } else {
+                document.getElementById("repo-license").textContent = "Not specified";
+            }
+
+            const createdAt = new Date(repo.created_at).toLocaleString();
+            document.getElementById("repo-created-at").textContent = createdAt;
+
+            const website = repo.homepage || "None";
+            document.getElementById("repo-website").textContent = website;
+
+            document.getElementById("repo-modal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("repo-modal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
