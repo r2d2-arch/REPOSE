@@ -13,6 +13,7 @@ function searchRepositories() {
     document.getElementById("loader").style.display = "inline-block";
     document.getElementById("repo-list").innerHTML = '';
 
+    //GPT4.0 metrics needed
     const apiUrl = `https://api.repose.com/search/repositories?q=${query}&per_page=30`;
 
     fetch(apiUrl)
