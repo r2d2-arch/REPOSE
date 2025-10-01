@@ -1,7 +1,7 @@
 
 # REPOSE
 
-![Banner](assets/banner.jpg)
+![Banner](assets/banner.png)
 
 ## Description
 
